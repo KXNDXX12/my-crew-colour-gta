@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTA Online Modded Crew Colors</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>GTA Online Modded Crew Colors</h1>
+        <p>Click any hex code to copy it. Don't forget to add the bypass suffix (AA/FF) if needed!</p>
+        <input type="text" id="searchBar" placeholder="Search by brand, color name, or type...">
+    </header>
+
+    <main class="color-grid" id="colorGrid">
+        <!-- Colors will be dynamically injected here via Javascript -->
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+// Database array containing the colors
+const colorDatabase = [
+    { name: "Pure Black", brand: "Secret", hex: "#000000AA", rgb: "0, 0, 0", pearl: "None" },
+    { name: "Pure White", brand: "Secret", hex: "#FFFFFF00", rgb: "255, 255, 255", pearl: "Ice White" },
+    { name: "Nardo Grey", brand: "Audi", hex: "#3C3E44AA", rgb: "60, 62, 68", pearl: "Ice White" },
+    { name: "Rosso Corsa", brand: "Ferrari", hex: "#D40000AA", rgb: "212, 0, 0", pearl: "Torino Red" },
+    { name: "Viola Parsifae", brand: "Lamborghini", hex: "#2A0773AA", rgb: "42, 7, 115", pearl: "Salmon Pink" },
+    { name: "Isle of Man Green", brand: "BMW", hex: "#00322BAA", rgb: "0, 50, 43", pearl: "Gasoline Green" },
+    { name: "Miami Blue", brand: "Porsche", hex: "#006699FF", rgb: "0, 102, 153", pearl: "Ultra Blue" },
+    { name: "Midnight Purple III", brand: "Nissan", hex: "#000831AA", rgb: "0, 8, 49", pearl: "Schafter Purple" }
+];
+
+const colorGrid = document.getElementById('colorGrid');
+const searchBar = document.getElementById('searchBar');
+
+// Function to render cards to the screen
+function displayColors(colors) {
+    colorGrid.innerHTML = "";
+    
+    colors.forEach(color => {
+        const card = document.createElement('div');
+        card.className = 'color-card';
+        
+        // Use the hex code safely for the preview box background
+        // Removing extra formatting characters for CSS fallback compatibility
+        const cleanHex = color.hex.substring(0, 7); 
+
+        card.innerHTML = `
+            <div class="color-preview" style="background-color: ${cleanHex};"></div>
+            <div class="color-info">
+                <h3>${color.name}</h3>
+                <span class="brand-tag">${color.brand}</span>
+                
+                <div class="code-box" onclick="copyToClipboard('${color.hex}', this)">
+                    <code>Hex: ${color.hex}</code>
+                    <span>Click to Copy</span>
+                </div>
+                <div class="code-box" onclick="copyToClipboard('${color.rgb}', this)">
+                    <code>RGB: ${color.rgb}</code>
+                    <span>Click to Copy</span>
+                </div>
+                <div class="code-box" style="cursor: default;">
+                    <code>Pearl: ${color.pearl}</code>
+                </div>
+            </div>
+        `;
+        colorGrid.appendChild(card);
+    });
+}
+
+// Function to copy text to user's clipboard
+function copyToClipboard(text, element) {
+    navigator.clipboard.writeText(text).then(() => {
+        const originalText = element.innerHTML;
+        element.innerHTML = `<code style="color: #4caf50;">Copied!</code>`;
+        setTimeout(() => {
+            element.innerHTML = originalText;
+        }, 1500);
+    });
+}
+
+// Live Search logic
+searchBar.addEventListener('input', (e) => {
+    const searchString = e.target.value.toLowerCase();
+    const filteredColors = colorDatabase.filter(color => {
+        return (
+            color.name.toLowerCase().includes(searchString) ||
+            color.brand.toLowerCase().includes(searchString)
+        );
+    });
+    displayColors(filteredColors);
+});
+
+// Initial load
+displayColors(colorDatabase);
